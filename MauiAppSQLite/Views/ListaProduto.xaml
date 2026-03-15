@@ -10,9 +10,40 @@
     </ContentPage.ToolbarItems>
 
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+
+        <SearchBar
+            x:Name="txt_search"
+            Placeholder="Pesquisar Produtos"
+            TextChanged="txt_search_TextChanged"/>
+
+        <ListView x:Name="lst_produto">
+            <ListView.Header>
+                <Grid ColumnDefinitions="*, *, *, *, *">
+                    <Label Text="ID" Grid.Column="0" FontAttributes="Bold" /> 
+                    <Label Text="Nome" Grid.Column="1" FontAttributes="Bold" />
+                    <Label Text="Quantidade" Grid.Column="2" FontAttributes="Bold" />
+                    <Label Text="Preço Unitário" Grid.Column="3" FontAttributes="Bold" /> 
+                    <Label Text="Preço Total" Grid.Column="4" FontAttributes="Bold" />
+                </Grid>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Remover" Clicked="MenuItem_Clicked" CommandParameter="{Binding .}"/>
+                        </ViewCell.ContextActions>
+                        <Grid ColumnDefinitions="*, *, *, *, *">
+                            <Label Text="{Binding Id}" Grid.Column="0" FontAttributes="Bold" /> 
+                            <Label Text="{Binding Name}" Grid.Column="1" FontAttributes="Bold" />
+                            <Label Text="{Binding Quantity}" Grid.Column="2" FontAttributes="Bold" />
+                            <Label Text="{Binding Price}" Grid.Column="3" FontAttributes="Bold" /> 
+                            <Label Text="{Binding TotalPrice}" Grid.Column="4" FontAttributes="Bold" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
     </VerticalStackLayout>
+    
 </ContentPage>

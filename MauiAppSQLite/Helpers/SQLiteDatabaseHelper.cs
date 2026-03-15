@@ -20,7 +20,7 @@ namespace MauiAppSQLite.Helpers
 
         public Task<List<Product>> Update(Product product)
         {
-            string sql = "UPDATE Produto SET Nome=?, Quantidade=?, Preco=? WHERE Id=?";
+            string sql = "UPDATE Produto SET Name=?, Quantity=?, Price=? WHERE Id=?";
 
             return _conn.QueryAsync<Product>(
                 sql,
@@ -43,7 +43,7 @@ namespace MauiAppSQLite.Helpers
 
         public Task<List<Product>> Search(string q)
         {
-            string sql = "SELECT * Produto WHERE nome LIKE '%" + q + "%'";
+            string sql = "SELECT * FROM Product WHERE name LIKE '%" + q + "%'";
 
             return _conn.QueryAsync<Product>(sql);
         }
