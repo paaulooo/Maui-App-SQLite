@@ -20,7 +20,7 @@ namespace MauiAppSQLite.Helpers
 
         public Task<List<Product>> Update(Product product)
         {
-            string sql = "UPDATE Produto SET Name=?, Quantity=?, Price=? WHERE Id=?";
+            string sql = "UPDATE Product SET Name=?, Quantity=?, Price=? WHERE Id=?";
 
             return _conn.QueryAsync<Product>(
                 sql,

@@ -16,7 +16,7 @@
             Placeholder="Pesquisar Produtos"
             TextChanged="txt_search_TextChanged"/>
 
-        <ListView x:Name="lst_produto">
+        <ListView x:Name="lst_produto" ItemSelected="lst_produto_ItemSelected">
             <ListView.Header>
                 <Grid ColumnDefinitions="*, *, *, *, *">
                     <Label Text="ID" Grid.Column="0" FontAttributes="Bold" /> 

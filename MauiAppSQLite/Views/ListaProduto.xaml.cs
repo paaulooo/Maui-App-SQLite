@@ -8,17 +8,26 @@ namespace MauiAppSQLite.Views;
 public partial class ListaProduto : ContentPage
 {
     ObservableCollection<Product> list = new ObservableCollection<Product>();
-	public ListaProduto()
-	{
-		InitializeComponent();
+    public ListaProduto()
+    {
+        InitializeComponent();
         lst_produto.ItemsSource = list;
     }
 
     protected async override void OnAppearing()
     {
-        List<Product> tmp = await App.Database.GetAll();
+        try
+        {
+            List<Product> tmp = await App.Database.GetAll();
 
-        tmp.ForEach(i => list.Add(i));
+            tmp.ForEach(i => list.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Ops", ex.Message, "Ok");
+
+        }
+
     }
 
     private void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -45,31 +54,68 @@ public partial class ListaProduto : ContentPage
 
     private async void txt_search_TextChanged(object sender, TextChangedEventArgs e)
     {
-        string q = e.NewTextValue;
-
-        list.Clear();
-
-        List<Product> tmp = await App.Database.Search(q);
-        tmp.ForEach(i =>
+        try
         {
-            if (!list.Contains(i))
-                list.Add(i);
-        });
+
+            string q = e.NewTextValue;
+
+            list.Clear();
+
+            List<Product> tmp = await App.Database.Search(q);
+            tmp.ForEach(i =>
+            {
+                if (!list.Contains(i))
+                    list.Add(i);
+            });
+        }
+        catch (Exception ex) 
+        {
+            await DisplayAlertAsync("Ops", ex.Message, "Ok");
+        }
     }
 
     private async void MenuItem_Clicked(object sender, EventArgs e)
     {
-        MenuItem item = sender as MenuItem;
-        var p = item?.CommandParameter as Product;
 
-        if (p != null)
+        try
         {
-            await App.Database.Delete(p.Id);
+            MenuItem item = sender as MenuItem;
+            Product p = item?.BindingContext as Product;
+
+            bool confirm = await DisplayAlertAsync($"Tem certeza que quer excluir {p.Name}?", "Remover", "Sim", "Não");
+
+            if (confirm)
+            {
+                if (p != null)
+                {
+                    await App.Database.Delete(p.Id);
+                    list.Clear();
+
+                    List<Product> tmp = await App.Database.GetAll();
+
+                    tmp.ForEach(i => list.Add(i));
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Ops", ex.Message, "Ok");
+        }
+        
+    }
+
+    private async void lst_produto_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        try
+        {
+            Product p = e.SelectedItem as Product;
             list.Clear();
-
-            List<Product> tmp = await App.Database.GetAll();
-
-            tmp.ForEach(i => list.Add(i));
+            
+            await Navigation.PushAsync(new Views.EditaProduto { BindingContext = p});
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Ops", ex.Message, "Ok");
         }
     }
 }
