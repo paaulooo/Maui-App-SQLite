@@ -21,7 +21,8 @@ public partial class EditaProduto : ContentPage
                 Name = txt_nome.Text,
 				Quantity = int.Parse(txt_quantidade.Text),
 				Price = decimal.Parse(txt_preco.Text),
-			};
+				Category = txt_categoria.SelectedItem.ToString(),
+            };
 			await App.Database.Update(p);
 			await DisplayAlertAsync("Sucesso", "Produto atualizado com sucesso!", "Ok");
 			await Navigation.PopAsync();

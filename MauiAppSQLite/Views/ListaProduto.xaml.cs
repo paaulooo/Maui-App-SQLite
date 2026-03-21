@@ -143,4 +143,30 @@ public partial class ListaProduto : ContentPage
             lst_produto.IsRefreshing = false;
         }
     }
+
+    private void picker_category_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+        var r = list
+            .GroupBy(i => i.Category)
+            .Select(g => new
+            {
+                Category = g.Key,
+                Total = g.Sum(i => i.TotalPrice)
+            })
+            .ToList();
+
+        var selected = picker_category.SelectedItem.ToString();
+
+        if (selected == "Todos")
+        {
+            lst_produto.ItemsSource = list;
+        }
+        else
+        {
+            lst_produto.ItemsSource = list
+                .Where(i => i.Category == selected)
+                .ToList();
+        }
+    }
 }

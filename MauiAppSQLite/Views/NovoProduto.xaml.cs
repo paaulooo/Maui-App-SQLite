@@ -17,8 +17,9 @@ public partial class NovoProduto : ContentPage
 			{
 				Name = txt_nome.Text,
 				Quantity = Convert.ToInt16(txt_quantidade.Text),
-				Price = Convert.ToDecimal(txt_preco.Text)
-			};
+				Price = Convert.ToDecimal(txt_preco.Text),
+				Category = txt_categoria.SelectedItem.ToString()
+            };
 
 			await App.Database.Insert(p);
 			await DisplayAlertAsync("Sucesso", "Registro inserido", "ok");

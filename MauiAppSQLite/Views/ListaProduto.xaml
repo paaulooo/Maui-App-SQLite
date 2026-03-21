@@ -25,6 +25,24 @@
             TextChanged="txt_search_TextChanged"
             Margin="-15,0,0,0"/>
 
+        <Label Text="Filtrar por Categoria:" FontAttributes="Bold"/>
+        <Picker
+            x:Name="picker_category"
+            Title="Selecione uma categoria"
+            SelectedIndexChanged="picker_category_SelectedIndexChanged">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Todos</x:String>
+                    <x:String>Eletrônicos</x:String>
+                    <x:String>Roupas</x:String>
+                    <x:String>Alimentos</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+
+        </Picker>
+
+
+
         <Frame Padding="0" Margin="10" VerticalOptions="FillAndExpand">
             <ListView x:Name="lst_produto" 
                   IsPullToRefreshEnabled="True"
