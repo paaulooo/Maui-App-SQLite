@@ -41,9 +41,13 @@
 
         </Picker>
 
+        <Label x:Name="lbl_total_categoria"
+               Text="R$ 0,00"
+               FontAttributes="Bold" Margin="0,10,0,0"/>
 
 
-        <Frame Padding="0" Margin="10" VerticalOptions="FillAndExpand">
+
+            <Frame Padding="0" Margin="10" VerticalOptions="FillAndExpand">
             <ListView x:Name="lst_produto" 
                   IsPullToRefreshEnabled="True"
                   Refreshing="lst_produto_Refreshing"

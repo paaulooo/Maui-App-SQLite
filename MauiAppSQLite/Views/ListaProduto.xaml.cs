@@ -21,6 +21,8 @@ public partial class ListaProduto : ContentPage
             List<Product> tmp = await App.Database.GetAll();
 
             tmp.ForEach(i => list.Add(i));
+            decimal totalValueAllProducts = SumByCategory(tmp);
+            lbl_total_categoria.Text = "Valor Total: " + totalValueAllProducts.ToString("C");
         }
         catch (Exception ex)
         {
@@ -147,26 +149,33 @@ public partial class ListaProduto : ContentPage
     private void picker_category_SelectedIndexChanged(object sender, EventArgs e)
     {
 
-        var r = list
-            .GroupBy(i => i.Category)
-            .Select(g => new
-            {
-                Category = g.Key,
-                Total = g.Sum(i => i.TotalPrice)
-            })
-            .ToList();
+        List<Product> filteredList;
+
+        if (picker_category.SelectedItem == null) return;
 
         var selected = picker_category.SelectedItem.ToString();
 
         if (selected == "Todos")
         {
-            lst_produto.ItemsSource = list;
+            filteredList = list.ToList();
         }
         else
-        {
-            lst_produto.ItemsSource = list
+        {  
+            filteredList = list
                 .Where(i => i.Category == selected)
-                .ToList();
+                .ToList();   
         }
+        lst_produto.ItemsSource = filteredList;
+
+        decimal totalValueByCategory = SumByCategory(filteredList);
+        lbl_total_categoria.Text = "Valor Total: " + totalValueByCategory.ToString("C");
+
+
     }
+    private decimal SumByCategory(List<Product> tmp_list)
+    {
+        return tmp_list.Sum(p => p.TotalPrice);
+
+    }
+
 }
